@@ -6,17 +6,21 @@
       :favoriteNum="favoriteNum"
       :followerNum="followerNum"
       :followingNum="followingNum"
+      :is-current-user="isCurrentUser"
+      :initial-is-followed="isFollowed"
     />
     <div class="row">
       <div class="col-md-4">
-        <UserFollowingsCard />
+        <UserFollowingsCard :followings="profile.Followings" />
         <br />
-        <UserFollowersCard />
+        <UserFollowersCard :followers="profile.Followers" />
       </div>
       <div class="col-md-8">
-        <UserCommentsCard />
+        <UserCommentsCard :comments="profile.Comments" />
         <br />
-        <UserFavoritedRestaurantsCard />
+        <UserFavoritedRestaurantsCard
+          :favoritedRestaurants="profile.FavoritedRestaurants"
+        />
       </div>
     </div>
   </div>
@@ -1303,6 +1307,7 @@ export default {
       favoriteNum: 0,
       followerNum: 0,
       followingNum: 0,
+      isCurrentUser: false,
     };
   },
   created() {
@@ -1312,6 +1317,7 @@ export default {
     this.favoriteNum = dummyData.profile.FavoritedRestaurants.length;
     this.followerNum = dummyData.profile.Followers.length;
     this.followingNum = dummyData.profile.Followings.length;
+    this.isCurrentUser = dummyData.profile.id == this.id;
   },
   methods: {
     fetchUser() {

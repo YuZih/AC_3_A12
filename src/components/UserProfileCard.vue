@@ -22,11 +22,32 @@
               <strong>{{ followingNum }}</strong> followers (追隨者)
             </li>
           </ul>
-          <p>
-            <a href="/users/2/edit"
-              ><button type="submit" class="btn btn-primary">edit</button></a
+          <template v-if="isCurrentUser">
+            <router-link
+              :to="{ name: 'user-edit', params: { id: profile.id } }"
+              class="btn btn-primary"
             >
-          </p>
+              Edit
+            </router-link>
+          </template>
+          <template v-else>
+            <button
+              v-if="isFollowed"
+              type="button"
+              class="btn btn-danger"
+              @click.stop.prevent="deleteFollowing()"
+            >
+              取消追蹤
+            </button>
+            <button
+              v-else
+              type="button"
+              class="btn btn-primary"
+              @click.stop.prevent="addFollowing()"
+            >
+              追蹤
+            </button>
+          </template>
         </div>
       </div>
     </div>
@@ -56,26 +77,29 @@ export default {
       type: Number,
       required: true,
     },
+    isCurrentUser: {
+      type: Boolean,
+      required: true,
+    },
+    initialIsFollowed: {
+      type: Boolean,
+      required: true,
+    },
   },
   data() {
     return {
-      currentUser: {
-        // id: 1;
-        name: "root",
-        email: "root@example.com",
-        // password: "$2a$10$OJ3jR93XlEMrQtYMWOIQh.EINWgaRFTXkd0Xi5OC/Vz4maztUXEPe";
-        // isAdmin: true;
-        // image: "https://i.imgur.com/58ImzMM.png";
-        // createdAt: "2019-07-30T16:24:54.983Z";
-        // updatedAt: "2019-08-01T10:33:51.095Z";
-      },
-      userComments: [],
-      userFavoritedRestaurants: [],
-      userFollowers: [],
-      userFollowings: [],
+      isFollowed: this.initialIsFollowed,
     };
   },
   created() {},
-  methods: {},
+  methods: {
+    addFollowing() {
+      this.isFollowed = true;
+    },
+
+    deleteFollowing() {
+      this.isFollowed = false;
+    },
+  },
 };
 </script>

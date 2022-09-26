@@ -5,7 +5,7 @@
     <NavTabs />
 
     <!-- 餐廳類別標籤 RestaurantsNavPills -->
-
+    <RestaurantsNavPills :categories="categories" />
     <div class="row">
       <!-- 餐廳卡片 RestaurantCard-->
       <RestaurantCard
@@ -14,15 +14,22 @@
         :initial-restaurant="restaurant"
       />
     </div>
-
-    <!-- 分頁標籤 RestaurantPagination -->
+    <RestaurantsPagination
+      v-if="totalPage.length > 1"
+      :current-page="currentPage"
+      :total-page="totalPage"
+      :category-id="categoryId"
+      :previous-page="previousPage"
+      :next-page="nextPage"
+    />
   </div>
 </template>
 
 <script>
 import NavTabs from "../components/NavTabs.vue";
 import RestaurantCard from "../components/RestaurantCard.vue";
-
+import RestaurantsNavPills from "../components/RestaurantsNavPills.vue";
+import RestaurantsPagination from "../components/RestaurantsPagination.vue";
 //建立種子資料
 const dummyData = {
   restaurants: [
@@ -303,6 +310,8 @@ export default {
   components: {
     NavTabs,
     RestaurantCard,
+    RestaurantsNavPills,
+    RestaurantsPagination,
   },
   data() {
     return {
